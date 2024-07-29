@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulář pro nákup</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark">
+<!--Navigační lišta-->
+<header>
+    <nav class="container-fluid bg-dark position-fixed">
+        <div class="row align-items-center">
+            <div class="d-flex justify-content-between">
+                <img src="img/logoFapi.png" alt="logoFapi" width="95" height="30" class="img-fluid m-3">
+                <h4 class="text-white m-3">PRAKTICKÝ TEST</h4>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="bg-white pt-5">
+    <!--Text zadání praktického testu-->
+    <div class="container mx-2 mx-auto">
+        <h4 class="pt-4">Zpracujte prosím samostatně následující zadání:</h4>
+        <p class="m-0">1. Vytvořte HTML stránku s jednoduchým formulářem k odeslání, kde si kupující vyplní základní
+            osobní informace a bude moci zadat produkt včetně ceny.</p>
+        <p class="m-0">2. Nezapomeňte, že změnou počtu kusů se musí změnit i celková cena.</p>
+        <p class="m-0">3. Nezapomeňte na validaci jednotlivých prvků formuláře.</p>
+        <p class="m-0">4. Na ní se po odeslání formuláře zobrazí rekapitulace včetně DPH.</p>
+        <p class="m-0">5. Rekapitulace bude obsahovat přepočet ceny do libovolné jiné měny dle aktuálního
+            kurzovního lístku České národní banky, který se automaticky načte.</p>
+    </div>
+    <div class="container m-2 mx-auto bg-light mb-3 py-2 rounded">
+        <div class="row">
+            <!--Nákupní formulář-->
+            <div class="col-lg-6 col-12 my-1">
+                <div class="p-2 border border-dark-subtle rounded">
+                    <h3 class="py-2 bg-primary-subtle text-dark ps-2 rounded">🛒 NÁKUPNÍ FORMULÁŘ</h3>
+                    <form id="purchaseForm">
+                        <!--Zadání jména-->
+                        <div class="form-group mb-2">
+                            <label for="name">Jméno:</label>
+                            <input type="text" class="form-control border border-dark" id="name" name="name"
+                                   placeholder="... jméno nebo název firmy ..." required>
+                        </div>
+                        <!--Zadání e-mailu-->
+                        <div class="form-group mb-2">
+                            <label for="email">E-mail:</label>
+                            <input type="email" class="form-control border border-dark" id="email" name="email"
+                                   placeholder="... váš e-mail ..."
+                                   required>
+                        </div>
+                        <!--Zadání názvu produktu-->
+                        <div class="form-group mb-2">
+                            <label for="product">Produkt:</label>
+                            <input type="text" class="form-control border border-dark" id="product" name="product"
+                                   placeholder="... název zboží ..." required>
+                        </div>
+                        <!--Zadání ceny Kč vč.DPH-->
+                        <div class="form-group mb-2">
+                            <label for="price">Cena Kč vč. DPH:</label>
+                            <input type="number" class="form-control border border-dark" id="price" name="price"
+                                   step="0.01"
+                                   placeholder="... cena s dph ..." required>
+                        </div>
+                        <!--Zadání množství-->
+                        <div class="form-group mb-2">
+                            <label for="quantity">Počet kusů:</label>
+                            <input type="number" class="form-control border border-dark" id="quantity" name="quantity"
+                                   min="1"
+                                   value="1" placeholder="... množství ..." required>
+                        </div>
+                        <!--Tlačítko RESET-->
+                        <div class="text-end">
+                            <button id="resetButton" type="reset"
+                                    class="btn btn-sm btn-light border border-dark-subtle">
+                                Reset
+                            </button>
+                            <!--Tlačítko pro odeslání formuláře-->
+                            <button type="submit" class="btn btn-sm btn-primary ms-2">Odeslat</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--Rekapitulace-->
+            <div id="summary" class="col-lg-6 col-12 my-1">
+                <div class="p-2 border border-dark-subtle rounded">
+                    <h3 class="py-2 bg-success-subtle text-dark ps-1 rounded">Σ REKAPITULACE</h3>
+                    <form>
+                        <!--Vypíše Jméno a e-mail kupujícího-->
+                        <p class="p-0 m-0"><strong>🙍🏼‍ KUPUJÍCÍ:</strong></p>
+                        <p class="bg-white p-0 m-0" id="summaryName"></p>
+                        <p class="bg-white p-0 mb-3" id="summaryEmail"></p>
+                        <!--Vypíše název produktu a množství-->
+                        <p class="p-0 m-0"><strong>🛒 PRODUKT:</strong></p>
+                        <p class="bg-white p-0 m-0" id="summaryProduct"></p>
+                        <p class="bg-white p-0 mb-3" id="pieces"></p>
+                        <!--Vypíše ceny objednávky-->
+                        <p class="p-0 m-0"><strong>＄ CENA:</strong></p>
+                        <p class="bg-white p-0 m-0" id="priceWithoutVAT"></p>
+                        <p class="bg-white p-0 m-0" id="summaryPrice"></p>
+                        <p class="bg-white p-0 mb-3" id="summaryVAT"></p>
+                        <!--Vypíše kurz ČNB a celkovou cenu vč. DPH v Kč a Eur.-->
+                        <p class="p-0 m-0 text-center"><strong>Cena celkem vč DPH: Kč | Eur</strong></p>
+                        <p id="rateEUR" class="mb-2 p-0 text-center" style="font-size: 0.7em;"></p>
+                        <h3 id="summaryTotalEUR" class="bg-dark-subtle text-center rounded-2"></h3>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--Patička-->
+    <footer class="position-relative">
+        <p class="text-center text-light p-0 bg-dark m-0 pt-3">Vytvořil Jiří Raszka, dne 17.7.2024</p>
+        <p class="text-center text-light p-0 bg-dark m-0">jirka.raszka@gmail.com | +420 725 832 519</p>
+    </footer>
+
+    <script src="js/formScript.js"></script>
+</section>
+</body>
+</html>
